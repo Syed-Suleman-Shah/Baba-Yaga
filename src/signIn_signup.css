@@ -1,0 +1,107 @@
+*{
+    line-height: inherit;
+    background-color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.first-col{
+    padding-top: 80px;
+    /* background-color: whitesmoke; */
+    ;
+}
+.logo{
+    width: 60px;
+    align-self: center;
+}
+.welcome-note{
+    align-self: center;
+    
+}
+.welcome-note p{
+    margin-left: 45px;
+}
+
+/* 2nd coloumn */
+.second-col{
+    padding: 80px 20px 0 20px;
+    
+}
+
+.Introductory-note{
+    display: block;
+    background-color: whitesmoke;
+    padding: 30px 30px 30px 30px;
+    border: 2px;
+    border-radius: 10px;
+    border-style: inherit;
+    box-shadow: 20px 20px 80px #888888;
+}
+.Introductory-note h3{
+    background-color: whitesmoke;
+
+}
+.Introductory-note p{
+    background-color: whitesmoke;
+
+}
+
+.row-first{
+    background-color: whitesmoke;
+}
+
+.row-first h3{
+    background-color: whitesmoke;
+
+}
+.row-first p{
+    background-color: whitesmoke;
+
+}
+
+.second-row{
+    margin-top: 20px;
+    display: block;
+    background-color: whitesmoke;
+    /* padding: 30px 30px 30px 30px; */
+    border: 2px;
+    border-radius: 10px;
+    /* border-style: inherit; */
+    box-shadow: 20px 20px 80px #888888;
+}
+
+.badge{
+    width: 120px;
+    margin-left: 67px;
+    /* display: block; */
+    border-color: #161042;
+    /* border-width: 10px; */
+    /* border-radius: 50%; */
+    
+}
+
+/* @media ( min-width: 100px ) and (max-width: 450){ */
+@media only screen and (max-width: 600px)  {
+    
+    .main-con{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(1, 102, 102);
+    }
+    .second-col{
+        display: none;
+    }    
+    .first-col{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        
+    }
+    
+    .div-name{
+        display: none;
+    }
+
+}
+
+    
