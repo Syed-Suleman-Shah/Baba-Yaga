@@ -11,11 +11,10 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/userRoute", userRoute); // routes for authenticated users  
+app.use("/api/userRoute", userRoute); // routes for authenticated user
 app.listen(PORT, () => {
   connect();
   console.log(`Server is running at http://localhost:${PORT}`);
 });
 //radiapple15
-
 // 6c9F1K2FquxohvPe
