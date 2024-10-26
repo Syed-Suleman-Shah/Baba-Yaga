@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 
 import { User } from '../Models/userAuthentication.js';
 
- 
 export const verifyToken = (req , res , next) => {
     const token = req.cookies.token;
     if (!token)
@@ -24,7 +23,7 @@ export const verifyToken = (req , res , next) => {
 
 
 export const verifyTokenForRole = async (req, res, next) => {
-    let token; // token
+    let token; 
     let authHeader = req.headers.Authorization || req.headers.authorization;
     if (authHeader && authHeader.startsWith('Bearer ')) {
         token = authHeader.split(' ')[1];
@@ -37,7 +36,7 @@ export const verifyTokenForRole = async (req, res, next) => {
          if (!decoded) {
             return res.status(400).json({ success: false, message: 'Token is not valid' });
         }
-        const user = await User.findById(decoded.id); 
+        const user = await User.findById(decoded.id); // Use decoded.id to find user
         if (!user) {
             return res.status(404).json({ success: false, message: 'User not found' });
         }
@@ -52,3 +51,4 @@ export const verifyTokenForRole = async (req, res, next) => {
         console.log("error in verifyTokenForRole ", error);
     }
 };
+
