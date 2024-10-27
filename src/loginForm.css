@@ -1,0 +1,54 @@
+
+.main-container{
+    background-image: url(assets/b-g\ Horizontal\ with\ Name.webp);
+}
+/* Container */
+
+/* LogIn */
+
+.box-area{
+    width: 930px;
+    /* background-image: url('assets/b-g\ Horizontal\ with\ Name.webp'); */
+    background-color: white;
+}
+
+/*------------------Left-Box------------------*/
+.left-box{
+  background-color: #97e8bc;
+  border-radius: 5px;
+}
+
+.img-fluid{
+    width: fit-content;
+    
+}
+/*------------------Right-Box-----------------*/
+.right-box{
+    background-color: white;
+    
+}
+.right-inner-box{
+    padding: 15px;
+}
+/* ------------------Small Screen------------ */
+@media only screen and (max-width: 768px) { 
+
+    .main-con{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(247, 149, 4) !important;
+    }
+    .box-area{
+        margin: 0 10px;
+    }
+
+    .left-box{
+        height: 100px;
+        overflow: hidden;
+    }
+
+    .right-box{
+        padding: 20px;
+    }
+}
