@@ -8,12 +8,10 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
 function App() {
   return (
-
+// ==
     <Router>
       <div className="container">
         <Routes>
-
-
 
           <Route path="/" element={<Navigate to="/signin" />} />
 

@@ -4,7 +4,7 @@ import './AuthForm.css';
 function VerifyEmail({ onVerify }) {
   const [code, setCode] = useState('');
 
-  
+  // ==
   const handleVerify = (e) => {
     e.preventDefault();
     if (code.length === 6) {

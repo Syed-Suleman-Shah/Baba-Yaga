@@ -4,7 +4,7 @@ import { Link, useNavigate} from 'react-router-dom';
 import InputField from '../Common/InputFields';
 import './AuthForm.css';
 
-
+// ==
 function SignUp({ onSignUp }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
