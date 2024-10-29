@@ -13,6 +13,7 @@ function App() {
       <div className="container">
         <Routes>
 
+
           <Route path="/" element={<Navigate to="/signin" />} />
 
           <Route path="/signin" element={<SignInPage />} />
