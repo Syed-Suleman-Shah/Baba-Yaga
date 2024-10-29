@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import InputField from '../Common/InputFields';
 import './AuthForm.css';
 
+// ==
 function SignUp({ onSignUp }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -10,8 +12,16 @@ function SignUp({ onSignUp }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleSignUp = (e) => {
     e.preventDefault();
+
+    if (password.length < 8) {
+      alert('Password must be at least 8 characters long!');
+      return;
+    }
+
     if (password !== confirmPassword) {
       alert('Passwords do not match!');
       return;
@@ -21,6 +31,9 @@ function SignUp({ onSignUp }) {
       return;
     }
     onSignUp({ name, email, password });
+
+    navigate('/VerifyEmail');
+
   };
 
   return (
