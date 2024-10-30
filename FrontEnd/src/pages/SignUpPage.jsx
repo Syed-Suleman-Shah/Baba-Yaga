@@ -3,7 +3,7 @@ import React from 'react';
 import SignUp from '../components/Auth/SignUp';
 
 function SignUpPage() {
-  return <SignUp/ >;
+  return <SignUp />;
 }
 
 export default SignUpPage;

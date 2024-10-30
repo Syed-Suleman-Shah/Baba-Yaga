@@ -16,9 +16,9 @@ function SignUp() {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const {signup , error , isLoading} = useAuthService();
   const navigate = useNavigate();
-  const API_URL = "http://localhost:5000/api/auth";
-
- 
+  const API_URL = "http://localhost:5173/";
+// http://localhost:5000/api/auth/verify-Email
+ // http://localhost:5173/VerifyEmail
   const handleSignUp = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -26,11 +26,8 @@ function SignUp() {
       return;
     }
     await signup(name, email, password, confirmPassword, role);
-   
-    navigate(`${API_URL}/verify-Email`);
+    navigate(`/verifyEmail`,  {replace: true} );
   };
-
-
   return (
     <div className="auth-container d-flex flex-column flex-md-row align-items-center">
       <div className="form-section col-12 col-md-6 p-4">

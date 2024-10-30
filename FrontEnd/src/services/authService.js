@@ -32,6 +32,25 @@ export const useAuthService = create((set) => ({
       });
     } catch (error) {
       set({ isLoading: false, error: error.response.data.message });
+      throw error;
     }
   },
+  verifyEmail: async (verificationToken)=>{
+    set({ isLoading: false, error: null});
+    try {
+      const response = await axios.post(`${API_URL}/verify-Email`,
+        {
+          code: verificationToken
+        }
+      );
+      set({
+        user: response.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({ isLoading: false, error: error.response.data.message });
+        throw error;
+    }
+  }
 }));
