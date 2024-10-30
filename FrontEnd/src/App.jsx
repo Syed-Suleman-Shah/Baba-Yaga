@@ -25,6 +25,8 @@ function App() {
     if (user && !user.isVerified) {
       return <Navigate to="/verify-email" replace />;
     }
+     
+ 
     return children;
   };
 
@@ -43,7 +45,6 @@ function App() {
       checkAuth();
     }
   }, [checkAuth]);
-  
 
   return (
     // ==
@@ -74,7 +75,15 @@ function App() {
               </RedirectAuthenticatedUser>
             }
           />
-          <Route path="/VerifyEmail" element={<VerifyEmailPage />} />
+
+          <Route
+            path="/VerifyEmail"
+            element={
+              <ProtectPages>
+                <VerifyEmailPage />
+              </ProtectPages>
+            }
+          />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
             path="Admin"
