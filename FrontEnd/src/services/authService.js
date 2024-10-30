@@ -1,16 +1,37 @@
 // src/services/authService.js
-export const authService = {
-    signIn: (credentials) => {
-      console.log('SignIn with:', credentials);
-      // API call can go here
-    },
-    signUp: (userData) => {
-      console.log('SignUp with:', userData);
-      // API call can go here
-    },
-    resetPassword: (email) => {
-      console.log('Reset password for:', email);
-      // API call can go here
-    },
-  };
+import { create } from "zustand";
+import axios from "axios";
+
+const API_URL = "http://localhost:5000/api/auth";
+
+export const useAuthService = create((set) => ({
+  user: null,
+  isAuthenticated: false,
+  error: null,
+  isLoading: false,
   
+
+  signup: async (name, email, password, confirmPassword, role) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(
+        `${API_URL}/signup`,
+        {
+          name: name,
+          email: email,
+          password: password,
+          confirmPassword: confirmPassword,
+          role: role,
+        }
+      );
+
+      set({
+        user: response.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({ isLoading: false, error: error.response.data.message });
+    }
+  },
+}));

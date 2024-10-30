@@ -3,38 +3,33 @@ import React, { useState } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
 import InputField from '../Common/InputFields';
 import './AuthForm.css';
+import { useAuthService } from "../../services/authService";
 
 // ==
-function SignUp({ onSignUp }) {
+function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role , setRole] = useState('');
+  const [err, setError] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
-
+  const {signup , error , isLoading} = useAuthService();
   const navigate = useNavigate();
+  const API_URL = "http://localhost:5000/api/auth";
 
-  const handleSignUp = (e) => {
+ 
+  const handleSignUp = async (e) => {
     e.preventDefault();
-
-    if (password.length < 8) {
-      alert('Password must be at least 8 characters long!');
-      return;
-    }
-
     if (password !== confirmPassword) {
-      alert('Passwords do not match!');
+      setError("Passwords do not match.");
       return;
     }
-    if (!agreeToTerms) {
-      alert('You must agree to the terms and conditions!');
-      return;
-    }
-    onSignUp({ name, email, password });
-
-    navigate('/VerifyEmail');
-
+    await signup(name, email, password, confirmPassword, role);
+   
+    navigate(`${API_URL}/verify-Email`);
   };
+
 
   return (
     <div className="auth-container d-flex flex-column flex-md-row align-items-center">
@@ -68,7 +63,14 @@ function SignUp({ onSignUp }) {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           
-          <small>Password must be 8 characters long</small>
+          <InputField
+            type="text"
+            placeholder="Role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          />
+          
+          {err && err.message && <p>{err.message}</p>}
 
           <div className="form-check mt-3">
             <input
@@ -83,8 +85,9 @@ function SignUp({ onSignUp }) {
             </label>
           </div>
 
-          <button type="submit" className="btn btn-primary w-100 mt-3">
-            Sign Up
+          <button type="submit" className="btn btn-primary w-100 mt-3"
+          disabled={isLoading}>
+            {isLoading ? "Loading..." : "Sign Up" }
           </button>
           
           <p className="text-center mt-3">
