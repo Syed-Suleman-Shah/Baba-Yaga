@@ -68,6 +68,35 @@ export const useAuthService = create((set) => ({
       
       throw error;
     }
-  }
+  },
+  signin: async (email, password) => {
+    set({isLoading: true, error: null});
+    try {
+      const response = await axios.post(`${API_URL}/signin`, 
+        {email: email, password: password});
+        set({
+          user: response.data.user,
+          isAuthenticated: true,
+          isLoading: false,
+          isCheckingAuth: false,
+        })
 
+      
+    } catch (error) {
+  
+      set({ isLoading: false, error: error.response.data.message });
+      throw error;
+    }
+
+  },
+  signout: async() => {
+    set({ user: null, isAuthenticated: false, isLoading: false });
+    try {
+      const response = await axios.post(`${API_URL}/logout`);
+      localStorage.removeItem("token");
+    } catch (error) {
+      
+    }
+    
+  },
 }));

@@ -43,8 +43,8 @@ function App() {
       checkAuth();
     }
   }, [checkAuth]);
-  console.log("Is Authenticated", isAuthenticated);
-  console.log("user Data", user);
+  
+
   return (
     // ==
     <Router>

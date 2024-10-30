@@ -21,7 +21,7 @@ function VerifyEmail() {
       return;
     }
     await verifyEmail(verificationToken);
-    navigate(`/Admin`, { replace: true });
+    navigate(`/`, { replace: true });
   };
   return (
     <div className="auth-container d-flex flex-column flex-md-row align-items-center">

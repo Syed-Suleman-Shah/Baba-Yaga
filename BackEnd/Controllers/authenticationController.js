@@ -104,6 +104,7 @@ export const login = async (req, res) => {
     }
 	const token = jwt.sign({id: user._id ,role: user._role}, process.env.JWT_SECRET, { expiresIn: '7d' });
 	user.lastLogin = new Date();
+	generatTokenAndSetCookies(res, user._id, user.role);
 	await user.save();
 	res.status(200).json({token});
  } catch (error) {
