@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import SignInPage from './pages/SignInPage';
@@ -6,8 +6,18 @@ import SignUpPage from './pages/SignUpPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import AdminPage from './pages/AdminPage';
+import { useAuthService } from './services/authService';
 
 function App() {
+
+  const {isCheckingAuth , checkAuth , isAuthenticated , user} = useAuthService();
+  useEffect(() => {
+    if(isCheckingAuth) {
+      checkAuth();
+    }
+  }, [checkAuth]);
+  console.log('Is Authenticated', isAuthenticated);
+  console.log('user Data', user);
   return (
 // ==
     <Router>

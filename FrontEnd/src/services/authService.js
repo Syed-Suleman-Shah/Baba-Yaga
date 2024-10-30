@@ -9,8 +9,7 @@ export const useAuthService = create((set) => ({
   isAuthenticated: false,
   error: null,
   isLoading: false,
-  
-
+  isCheckingAuth: true,
   signup: async (name, email, password, confirmPassword, role) => {
     set({ isLoading: true, error: null });
     try {
@@ -52,5 +51,21 @@ export const useAuthService = create((set) => ({
       set({ isLoading: false, error: error.response.data.message });
         throw error;
     }
+  }, 
+  checkAuth: async ()=>{
+    set({isCheckingAuth:true , error:null});
+    try{
+      const response = await axios.get("http://localhost:5000/api/auth/check-auth");
+      set({
+        user: response.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+        isCheckingAuth: false,
+      });
+    }catch(error){
+      
+      throw error;
+    }
   }
+
 }));

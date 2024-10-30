@@ -4,7 +4,6 @@ import VerifyEmail from '../components/Auth/VerifyEmail'
 function VerifyEmailPage() {
   return (
     <>
-
     <VerifyEmail />
     </>
   )
