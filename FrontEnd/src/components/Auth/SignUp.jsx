@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
 import InputField from '../Common/InputFields';
 import './AuthForm.css';
@@ -14,20 +14,85 @@ function SignUp() {
   const [role , setRole] = useState('');
   const [err, setError] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
-  const {signup , error , isLoading} = useAuthService();
+  const {signup  , isLoading} = useAuthService();
   const navigate = useNavigate();
-  const API_URL = "http://localhost:5173/";
-// http://localhost:5000/api/auth/verify-Email
- // http://localhost:5173/VerifyEmail
+
+  useEffect(() => {
+    const savedName = localStorage.getItem("name");
+    if (savedName) {
+      setEmail(savedName);
+    }
+    const savedEmail= localStorage.getItem("email");
+    if (savedEmail) {
+      setEmail(savedEmail);
+    }
+    const savedRole= localStorage.getItem("role");
+    if (savedRole) {
+      setEmail(savedRole);
+    }
+  }, []);
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+    
+    setError('');
+  
+    if (!name) {
+      setError('Name is required');
       return;
     }
-    await signup(name, email, password, confirmPassword, role);
-    navigate(`/verifyEmail`,  {replace: true} );
+  
+    if (!email) {
+      setError('Email is required');
+      return;
+    }
+  
+    if (!password) {
+      setError('Password is required');
+      return;
+    }
+  
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long');
+      return;
+    }
+  
+    if (!confirmPassword) {
+      setError('Please confirm your password');
+      return;
+    }
+  
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+  
+    if (!role) {
+      setError('Role is required');
+      return;
+    }
+  
+    if (!agreeToTerms) {
+      setError('You must agree to the terms and conditions');
+      return;
+    }
+  
+    try {
+      await signup(name, email, password, confirmPassword, role);
+      localStorage.removeItem("name");
+      localStorage.removeItem("email");
+      localStorage.removeItem("role");
+
+      setError('');
+      navigate('/Verify-Email');
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError('Something went wrong, please try again.');
+      }
+    }
   };
+  
   return (
     <div className="auth-container d-flex flex-column flex-md-row align-items-center">
       <div className="form-section col-12 col-md-6 p-4">
@@ -67,8 +132,7 @@ function SignUp() {
             onChange={(e) => setRole(e.target.value)}
           />
           
-          {err && err.message && <p>{err.message}</p>}
-
+          {err && <div className="alert alert-danger">{err}</div>}
           <div className="form-check mt-3">
             <input
               type="checkbox"

@@ -15,36 +15,43 @@ import AdminPage from "./pages/AdminPage";
 import HomePage from "./pages/HomePage";
 import { useAuthService } from "./services/authService";
 
+const ProtectPages = ({ children }) => {
+  const { isCheckingAuth, isAuthenticated, user } = useAuthService();
+
+  console.log(user);
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace />;
+  }
+
+  if (!user.isVerified) {
+    return <Navigate to="/verify-Email" replace />;
+  }
+
+  return children;
+};
+
+// redirect authenticated users to the home page
+const RedirectAuthenticatedUser = ({ children }) => {
+  const { isAuthenticated, user } = useAuthService();
+
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
+
+
 function App() {
-  // protect pages from concurrent access
-  const ProtectPages = ({ children }) => {
-    const { isAuthenticated, user } = useAuthService();
-    if (!isAuthenticated) {
-      return <Navigate to="/signin" replace />;
-    }
-    if (user && !user.isVerified) {
-      return <Navigate to="/verify-email" replace />;
-    }
-     
- 
-    return children;
-  };
+  const { isCheckingAuth, checkAuth } = useAuthService();
 
-  // redirectAuthenticated users to the pages
-  const RedirectAuthenticatedUser = ({ children }) => {
-    const { isAuthenticated, user } = useAuthService();
-    if (isAuthenticated && user?.isVerified) {
-      return <Navigate to="/" />;
-    }
-    return children;
-  };
-
-  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthService();
   useEffect(() => {
-    if (isCheckingAuth) {
-      checkAuth();
-    }
+    checkAuth();
   }, [checkAuth]);
+
+  if (isCheckingAuth) {
+    return <div></div>;
+  }
 
   return (
     // ==
@@ -76,14 +83,8 @@ function App() {
             }
           />
 
-          <Route
-            path="/VerifyEmail"
-            element={
-              <ProtectPages>
-                <VerifyEmailPage />
-              </ProtectPages>
-            }
-          />
+          <Route path="/verify-Email" element={<VerifyEmailPage />} />
+
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
             path="Admin"

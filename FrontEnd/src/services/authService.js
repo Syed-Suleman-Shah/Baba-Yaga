@@ -54,21 +54,15 @@ export const useAuthService = create((set) => ({
         throw error;
     }
   }, 
-  checkAuth: async ()=>{
-    set({isCheckingAuth:true , error:null});
-    try{
-      const response = await axios.get(`${API_URL}/check-auth`);
-      set({
-        user: response.data.user,
-        isAuthenticated: true,
-        isLoading: false,
-        isCheckingAuth: false,
-      });
-    }catch(error){
-      
-      throw error;
-    }
-  },
+  checkAuth: async () => {
+		set({ isCheckingAuth: true, error: null });
+		try {
+			const response = await axios.get(`${API_URL}/check-auth`);
+			set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false });
+		} catch (error) {
+			set({ error: null, isCheckingAuth: false, isAuthenticated: false });
+		}
+	},
   signin: async (email, password) => {
     set({isLoading: true, error: null});
     try {
@@ -106,7 +100,7 @@ export const useAuthService = create((set) => ({
       set({ isLoading: false 
       });
     } catch (error) {
-      set({ isLoading: false, error: error.response.data.message });
+			set({ error: null, isCheckingAuth: false, isAuthenticated: false });
       throw error;
     }
   },

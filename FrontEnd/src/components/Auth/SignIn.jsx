@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import InputField from "../Common/InputFields";
 import "./AuthForm.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,19 +7,38 @@ import { useAuthService } from "../../services/authService";
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setError] = useState("");
   const { signin, isLoading, error } = useAuthService();
   const navigate = useNavigate();
-  
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("email");
+    if (savedEmail) {
+      setEmail(savedEmail);
+    }
+  }, []);
+
   const handleSignIn = async (e) => {
     e.preventDefault();
+    if (!email) {
+      setError("Email is required");
+      return;
+    }
+
+    if (!password) {
+      setError("Password is required");
+      return;
+    }
     try {
-      await signin(email, password); // Ensure sign-in is successful
+      await signin(email, password);
+      localStorage.setItem("email", email); 
+      
       navigate(`/`);
     } catch (error) {
-      console.error("Error during sign-in:", error); // Log if there's an issue
+      
     }
+    
   };
-  
 
   return (
     <div className="auth-container d-flex flex-column flex-md-row align-items-center">
@@ -47,9 +66,13 @@ function SignIn() {
               Forgot your password?
             </Link>
           </div>
-          {error && <div className="error-message">{`${error} Hi`}</div>}
-          <button type="submit" className="btn btn-primary w-100" disabled={isLoading}>
-           {isLoading ? "Loading..." : "Sign In"}
+          {err ? <div className="alert alert-danger">{`${err}`}</div> : error && <div className="alert alert-danger">{`${error}`}</div>}
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "Sign In"}
           </button>
           <p className="text-center mt-3">
             Don't have an account?{" "}

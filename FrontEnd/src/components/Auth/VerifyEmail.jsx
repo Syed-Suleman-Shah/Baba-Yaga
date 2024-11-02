@@ -21,7 +21,7 @@ function VerifyEmail() {
       return;
     }
     await verifyEmail(verificationToken);
-    navigate(`/`, { replace: true });
+    navigate(`/`);
   };
   return (
     <div className="auth-container d-flex flex-column flex-md-row align-items-center">
@@ -34,12 +34,12 @@ function VerifyEmail() {
           <div className="d-flex justify-content-center">
             <InputField
               type="text"
-              placeholder="code"
+              placeholder="######"
               value={verificationToken}
               onChange={(e) => setCode(e.target.value)}
             />
           </div>
-          {err && <p className="error">{err}</p>}
+          {err ? <div className="alert alert-danger">{`${err}`}</div> : error && <div className="alert alert-danger">{`${error}`}</div>}
           <button
             type="submit"
             className="btn btn-primary w-100"
