@@ -11,31 +11,50 @@ import {
 } from "../Mailtrap/emails.js";
 
 export const signup = async (req, res) => {
-  const { name, email, password, confirmPassword, role } = req.body;
+  const { name, email, password, confirmPassword, role , isAgreeToTerms } = req.body;
 
   try {
-    if (!name) {
-      throw new Error("User Name is required");
+    if (name === "") {
+      return res
+       .status(404)
+       .json({ success: false, message: "User Name is required" });
     }
 
-    if (!email) {
-      throw new Error("Email is required");
+    if (email === "") {
+      return res
+      .status(404)
+      .json({ success: false, message: "User Email is required" });
     }
 
-    if (!password) {
-      throw new Error("Password is required");
+    if (password === "") {
+      return res
+      .status(404)
+      .json({ success: false, message: "User Password is required" });
+    
     }
 
     if (password.length < 8) {
-      throw new Error("Password should be at least 8 characters long");
+      return res
+      .status(404)
+      .json({ success: false, message: "Password should be at least 8 characters long" });
+     
     }
 
-    if (!confirmPassword) {
-      throw new Error("Confirm Password is required");
+    if (confirmPassword === "") {
+      return res
+      .status(404)
+      .json({ success: false, message: "Confirm Password is required" });
     }
 
     if (password !== confirmPassword) {
-      throw new Error("Passwords do not match");
+      return res
+      .status(404)
+      .json({ success: false, message: "Passwords do not match" });
+    }
+    if (isAgreeToTerms === false) {
+      return res
+       .status(404)
+       .json({ success: false, message: "Please agree to the terms and conditions" });
     }
     const userAlreadyExists = await User.findOne({ email });
     if (userAlreadyExists === null) {
@@ -52,13 +71,13 @@ export const signup = async (req, res) => {
     const verificationToken = Math.floor(
       100000 + Math.random() * 900000
     ).toString();
-
     const user = new User({
       name,
       email,
       password: hashedPassword,
       confirmPassword: hashedConfirmPassword,
       role,
+      isAgreeToTerms,
       verificationToken,
       verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
     });
@@ -118,6 +137,16 @@ export const signin = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
+    if(email === ""){
+      return res
+       .status(404)
+       .json({ success: false, message: "Email is required" });
+    }
+    if(password === ""){
+      return res
+       .status(400)
+       .json({ success: false, message: "Password is required" });
+    }
     if (!user) {
       return res
         .status(404)

@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema(
         type: Boolean,
         default: false,
     },
+    isAgreeToTerms:{
+      type: Boolean,
+      required: true,
+    },
     resetPasswordToken: String,
     resetPasswordExpiresAt: Date,
     verificationToken: String,

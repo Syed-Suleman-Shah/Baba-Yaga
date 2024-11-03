@@ -12,9 +12,9 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [role , setRole] = useState('');
-  const [err, setError] = useState('');
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
-  const {signup  , isLoading} = useAuthService();
+ 
+  const [isAgreeToTerms, setAgreeToTerms] = useState();
+  const {signup  ,error, isLoading} = useAuthService();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,63 +33,16 @@ function SignUp() {
   }, []);
   const handleSignUp = async (e) => {
     e.preventDefault();
-    
-    setError('');
-  
-    if (!name) {
-      setError('Name is required');
-      return;
-    }
-  
-    if (!email) {
-      setError('Email is required');
-      return;
-    }
-  
-    if (!password) {
-      setError('Password is required');
-      return;
-    }
-  
-    if (password.length < 8) {
-      setError('Password must be at least 8 characters long');
-      return;
-    }
-  
-    if (!confirmPassword) {
-      setError('Please confirm your password');
-      return;
-    }
-  
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-  
-    if (!role) {
-      setError('Role is required');
-      return;
-    }
-  
-    if (!agreeToTerms) {
-      setError('You must agree to the terms and conditions');
-      return;
-    }
   
     try {
-      await signup(name, email, password, confirmPassword, role);
+      await signup(name, email, password, confirmPassword, role , isAgreeToTerms);
       localStorage.removeItem("name");
       localStorage.removeItem("email");
       localStorage.removeItem("role");
-
-      setError('');
+ 
       navigate('/Verify-Email');
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError('Something went wrong, please try again.');
-      }
+    
     }
   };
   
@@ -132,13 +85,13 @@ function SignUp() {
             onChange={(e) => setRole(e.target.value)}
           />
           
-          {err && <div className="alert alert-danger">{err}</div>}
+          {error && <div className="alert alert-danger">{`${error}`}</div> }
           <div className="form-check mt-3">
             <input
               type="checkbox"
               className="form-check-input"
               id="termsCheckbox"
-              checked={agreeToTerms}
+              checked={isAgreeToTerms}
               onChange={(e) => setAgreeToTerms(e.target.checked)}
             />
             <label className="form-check-label" htmlFor="termsCheckbox">

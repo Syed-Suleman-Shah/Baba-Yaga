@@ -12,7 +12,7 @@ export const useAuthService = create((set) => ({
   error: null,
   isLoading: false,
   isCheckingAuth: true,
-  signup: async (name, email, password, confirmPassword, role) => {
+  signup: async (name, email, password, confirmPassword, role , isAgreeToTerms) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(
@@ -23,6 +23,7 @@ export const useAuthService = create((set) => ({
           password: password,
           confirmPassword: confirmPassword,
           role: role,
+          isAgreeToTerms,
         }
       );
 

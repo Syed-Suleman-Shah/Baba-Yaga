@@ -7,10 +7,9 @@ import { useAuthService } from "../../services/authService";
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [err, setError] = useState("");
   const { signin, isLoading, error } = useAuthService();
-  const navigate = useNavigate();
 
+  
   useEffect(() => {
     const savedEmail = localStorage.getItem("email");
     if (savedEmail) {
@@ -20,24 +19,9 @@ function SignIn() {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    if (!email) {
-      setError("Email is required");
-      return;
-    }
-
-    if (!password) {
-      setError("Password is required");
-      return;
-    }
-    try {
       await signin(email, password);
       localStorage.setItem("email", email); 
-      
-      navigate(`/`);
-    } catch (error) {
-      
-    }
-    
+       
   };
 
   return (
@@ -66,7 +50,7 @@ function SignIn() {
               Forgot your password?
             </Link>
           </div>
-          {err ? <div className="alert alert-danger">{`${err}`}</div> : error && <div className="alert alert-danger">{`${error}`}</div>}
+          {error && <div className="alert alert-danger">{`${error}`}</div> }
           <button
             type="submit"
             className="btn btn-primary w-100"
