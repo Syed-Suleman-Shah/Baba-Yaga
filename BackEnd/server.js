@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import { connect } from "./Database/connectDB.js";
 import authRoutes from "./Routes/userAuthenticationRoutes.js";
 import userRoute from "./Routes/userRoute.js";
-
+import ManageUsers from "./Routes/admin/ManageUsers.js"
 dotenv.config();
 
 const app = express();
@@ -21,6 +21,7 @@ app.use(cors({
 
 app.use("/api/auth", authRoutes);
 app.use("/api/userRoute", userRoute); // routes for authenticated user
+app.use("/api/admin/view-users", ManageUsers);
 app.listen(PORT, () => {
   connect();
   console.log(`Server is running at http://localhost:${PORT}`);

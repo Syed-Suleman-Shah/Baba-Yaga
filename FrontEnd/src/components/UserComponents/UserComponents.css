@@ -1,0 +1,160 @@
+.container-row{
+    padding: 50px;
+    column-gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: grid;
+}
+
+.grid-item{
+    display: grid;
+    grid-template-columns: 70px auto;
+    background-color: #1a2b49;
+    border-radius: 8px;
+    height: 80px;
+    margin-bottom: 5px;
+    
+}
+
+.title{
+    text-decoration: none;
+}
+
+.links{
+    text-decoration: none;
+}
+/* =====================For UserCards================== */
+.card {
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  .card-title {
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    padding-top: 20px;
+  }
+  
+  
+/* ===================================================== */
+/* =====================UserSeller====================== */
+
+/* Optional additional styling */
+.container {
+  max-width: 100%;
+}
+
+.table {
+  margin: auto;
+}
+
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+/* ====================================================== */
+/* =========================UserSeller==UserBuyer==UserModerator=================== */
+
+
+/* UserComponents.css */
+
+/* Table styling */
+.table{
+    width: 100%;
+    border-bottom: #1a2b49;
+}
+
+tr{
+    width: fit-content;
+    border-bottom: 2px solid grey;
+    height: 40px;
+}
+
+.table th{
+    background-color: #1a2b49;
+}
+
+.table td {
+    vertical-align: middle;
+    font-size: 14px;
+    height: 60px;
+}
+
+.table thead th {
+    font-weight: bold;
+    color: white;
+    background-color: #1a2b49;
+    border-bottom: 2px solid #dee2e6;
+    height: 60px;
+    align-self: center;
+}
+
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Badge styling for role */
+.badge {
+    padding: 0.4em 0.6em;
+    font-size: 0.875em;
+    font-weight: 600;
+    border-radius: 0.5em;
+}
+
+/* Custom badge colors */
+.bg-success {
+    background-color: #28a745 !important;
+}
+
+.bg-info {
+    background-color: #17a2b8 !important;
+}
+
+.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529;
+}
+
+.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+/* Link styling for user names */
+.text-dark {
+    color: #333;
+    text-decoration: none;
+}
+
+.text-dark:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    /* Card styling for mobile view */
+    .card {
+        border: 1px solid #dee2e6;
+        margin-bottom: 1rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .card-title {
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* =============================================================== */

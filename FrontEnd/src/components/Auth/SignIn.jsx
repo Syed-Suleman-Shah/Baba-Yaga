@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../Common/InputFields";
 import "./AuthForm.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,9 +7,14 @@ import { useAuthService } from "../../services/authService";
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signin, isLoading, error } = useAuthService();
-
-  
+  const { signin, isLoading } = useAuthService();
+  const { errorMessage, setError, clearError } = useAuthService();
+  const navigate = useNavigate();
+  useEffect(() => {
+    return () => {
+      clearError();
+    };
+  }, [clearError]);
   useEffect(() => {
     const savedEmail = localStorage.getItem("email");
     if (savedEmail) {
@@ -19,9 +24,47 @@ function SignIn() {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-      await signin(email, password);
-      localStorage.setItem("email", email); 
-       
+    try {
+      if (errorMessage === "Email is required") {
+        setError(errorMessage);
+        setTimeout(() => {
+          clearError();
+        }, 5000);
+        return;
+      }
+      if (errorMessage === "Password is required") {
+        setError(errorMessage);
+        setTimeout(() => {
+          clearError();
+        }, 5000);
+        return;
+      }
+      if (errorMessage === "Invalid credentials") {
+        setError(errorMessage);
+        setTimeout(() => {
+          clearError();
+        }, 5000);
+        return;
+      }
+
+      const user = await signin(email, password); // Now the user object will have the role
+      sessionStorage.setItem("token", user.token);
+      console.log("token", user.token);
+      if (user && user.role) {
+        // Ensure user and user.role are defined
+        if (user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+        console.log(user.role); // Should now log the correct role
+        localStorage.setItem("email", email);
+      } else {
+        console.error("User or role is undefined");
+      }
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+    }
   };
 
   return (
@@ -50,7 +93,11 @@ function SignIn() {
               Forgot your password?
             </Link>
           </div>
-          {error && <div className="alert alert-danger">{`${error}`}</div> }
+
+          {errorMessage && (
+            <div className="alert alert-danger">{`${errorMessage}`}</div>
+          )}
+
           <button
             type="submit"
             className="btn btn-primary w-100"

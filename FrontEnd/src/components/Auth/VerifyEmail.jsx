@@ -1,27 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AuthForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import InputField from "../Common/InputFields";
 import { useAuthService } from "../../services/authService";
-import VerificationInput from "react-verification-input";
 
 function VerifyEmail() {
   const [verificationToken, setCode] = useState("");
-  const [err, setError] = useState("");
-  const { verifyEmail, error, isLoading } = useAuthService();
+  const { verifyEmail, isLoading, resendVerificationCode } = useAuthService();
   const navigate = useNavigate();
+  const { errorMessage, setError, clearError } = useAuthService();
+  const { user } = useAuthService();
+  const userEmail = user?.email;
+
+  useEffect(() => {
+    return () => {
+      clearError();
+    };
+  }, [clearError]);
   const handleVerify = async (e) => {
     e.preventDefault();
-    if (!verificationToken) {
-      setError("Please enter the code");
+
+    if (errorMessage === "Invalid or expired verification code") {
+      setError(errorMessage);
+      setTimeout(() => {
+        clearError();
+      }, 3000);
       return;
     }
-    if (verificationToken < 6) {
-      setError("Please enter a valid code");
-      return;
+    const user = await verifyEmail(verificationToken);
+    console.log(user);
+    if (user && user.role) {
+      if (user.role === "seller") {
+        navigate("/seller");
+      } else {
+        console.log(user.role);
+      }
+    } else {
+      console.error("User or role is undefined");
     }
-    await verifyEmail(verificationToken);
-    navigate(`/`);
+  };
+  const handleResendCode = async () => {
+    // Logic for resending the verification code
+    try {
+      const message = await resendVerificationCode(userEmail); // Pass the email here
+      console.log("Verification code resent:", message);
+    } catch (error) {
+      setError("Failed to resend verification code.");
+      console.error("Resend failed", error);
+    }
   };
   return (
     <div className="auth-container d-flex flex-column flex-md-row align-items-center">
@@ -39,7 +65,11 @@ function VerifyEmail() {
               onChange={(e) => setCode(e.target.value)}
             />
           </div>
-          {err ? <div className="alert alert-danger">{`${err}`}</div> : error && <div className="alert alert-danger">{`${error}`}</div>}
+
+          {errorMessage && (
+            <div className="alert alert-danger">{`${errorMessage}`}</div>
+          )}
+
           <button
             type="submit"
             className="btn btn-primary w-100"
@@ -49,7 +79,11 @@ function VerifyEmail() {
           </button>
           <p className="text-center mt-3">
             Didn't receive the code?{" "}
-            <span className="text-link" style={{ cursor: "pointer" }}>
+            <span
+              className="text-link"
+              style={{ cursor: "pointer" }}
+              onClick={handleResendCode}
+            >
               Resend
             </span>
           </p>

@@ -1,0 +1,74 @@
+.grid-container{
+    padding: 50px;
+    column-gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: grid;
+}
+
+.grid-item{
+    display: grid;
+    grid-template-columns: 70px auto;
+    background-color: #1a2b49;
+    border-radius: 8px;
+    height: 80px;
+    margin-bottom: 5px;
+    
+}
+
+.icon{
+    background-color: #1a2b49;
+    align-self: center;
+}
+
+.icon img{
+    width : 50px;
+    align-items: center;
+    margin-left: 15px;
+}
+
+.name{
+    align-self: center;
+    color: white;
+    align-self: center;
+}
+/* ======================================================================== */
+
+.orderTable{
+    width: 100%;
+}
+
+table{
+    
+    width: fill;
+}
+
+tr{
+    width: fit-content;
+    border-bottom: 2px solid grey;
+}
+
+th{
+    text-align: center;
+    background-color: #1a2b49;
+    color: white;
+}
+
+td{
+    text-align: center;
+    height: 60px;
+}
+
+td img{
+    width: 100px;
+}
+
+button{
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 100px;
+    border: 2px solid #1a2b49;
+    border-radius: 5px;
+    background-color: #1a2b49;
+    color: white;
+    height: 50px;
+}

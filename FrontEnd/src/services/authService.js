@@ -12,20 +12,28 @@ export const useAuthService = create((set) => ({
   error: null,
   isLoading: false,
   isCheckingAuth: true,
-  signup: async (name, email, password, confirmPassword, role , isAgreeToTerms) => {
-    set({ isLoading: true, error: null });
+  errorMessage: null,
+  setError: (message) => set({ errorMessage: message }),
+  clearError: () => set({ errorMessage: null }),
+
+  signup: async (
+    name,
+    email,
+    password,
+    confirmPassword,
+    role,
+    isAgreeToTerms
+  ) => {
+    set({ isLoading: true, errorMessage: null });
     try {
-      const response = await axios.post(
-        `${API_URL}/signup`,
-        {
-          name: name,
-          email: email,
-          password: password,
-          confirmPassword: confirmPassword,
-          role: role,
-          isAgreeToTerms,
-        }
-      );
+      const response = await axios.post(`${API_URL}/signup`, {
+        name: name,
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+        role: role,
+        isAgreeToTerms,
+      });
 
       set({
         user: response.data.user,
@@ -33,75 +41,118 @@ export const useAuthService = create((set) => ({
         isLoading: false,
       });
     } catch (error) {
-      set({ isLoading: false, error: error.response.data.message });
+      set({ isLoading: false, errorMessage: error.response.data.message });
       throw error;
     }
   },
-  verifyEmail: async (verificationToken)=>{
-    set({ isLoading: false, error: null});
+
+  resendVerificationCode: async (email) => {
+    set({ isLoading: true, errorMessage: null });
     try {
-      const response = await axios.post(`${API_URL}/verify-Email`,
-        {
-          code: verificationToken
-        }
-      );
+      const response = await axios.post(`${API_URL}/Resend-code`, {
+        email: email,
+      });
       set({
-        user: response.data.user,
-        isAuthenticated: true,
         isLoading: false,
+        errorMessage: "Verification code has been sent successfully",
       });
     } catch (error) {
-      set({ isLoading: false, error: error.response.data.message });
-        throw error;
+      set({ isLoading: false, errorMessage: error.response.data.message });
+      throw error;
     }
-  }, 
-  checkAuth: async () => {
-		set({ isCheckingAuth: true, error: null });
-		try {
-			const response = await axios.get(`${API_URL}/check-auth`);
-			set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false });
-		} catch (error) {
-			set({ error: null, isCheckingAuth: false, isAuthenticated: false });
-		}
-	},
-  signin: async (email, password) => {
-    set({isLoading: true, error: null});
+  },
+
+  verifyEmail: async (verificationToken) => {
+    set({ isLoading: false, errorMessage: null });
     try {
-      const response = await axios.post(`${API_URL}/signin`, 
-        {email: email, password: password});
+      const response = await axios.post(`${API_URL}/verify-Email`, {
+        code: verificationToken,
+      });
+      if (response.data && response.data.user) {
+        const user = response.data.user;
         set({
           user: response.data.user,
           isAuthenticated: true,
           isLoading: false,
-          isCheckingAuth: false,
-        })
-
-      
+        });
+        return user;
+      } else {
+        throw new Error("User data is missing in the response");
+      }
     } catch (error) {
-  
-      set({ isLoading: false, error: error.response.data.message });
+      set({ isLoading: false, errorMessage: error.response.data.message });
       throw error;
     }
-
   },
-  signout: async() => {
+
+  checkAuth: async () => {
+    set({ isCheckingAuth: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/check-auth`);
+      set({
+        user: response.data.user,
+        isAuthenticated: true,
+        isCheckingAuth: false,
+      });
+    } catch (error) {
+      set({ error: null, isCheckingAuth: false, isAuthenticated: false });
+    }
+  },
+
+  signin: async (email, password) => {
+    set({ isLoading: true, errorMessage: null });
+    try {
+      const response = await axios.post(`${API_URL}/signin`, {
+        email,
+        password,
+      });
+
+      if (response.data && response.data.user) {
+        const user = response.data.user;
+        
+
+        set({
+          user: user,
+          isAuthenticated: true,
+          isLoading: false,
+          isCheckingAuth: false,
+        });
+        return user;
+      } else {
+        throw new Error("User data is missing in the response");
+      }
+    } catch (error) {
+      set({
+        isLoading: false,
+        errorMessage: error.response
+          ? error.response.data.message
+          : error.message,
+      });
+      throw error;
+    }
+  },
+
+  signout: async () => {
     set({ user: null, isAuthenticated: false, isLoading: false });
     try {
       const response = await axios.post(`${API_URL}/logout`);
       localStorage.removeItem("token");
-    } catch (error) {
-      
-    }
-    
+    } catch (error) {}
   },
+
   resetPassword: async (email) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true, errorMessage: null });
     try {
-      const response = await axios.post(`${API_URL}/forgot-password`, { email: email });
-      set({ isLoading: false 
+      const response = await axios.post(`${API_URL}/forgot-password`, {
+        email: email,
       });
+      set({ isLoading: false });
     } catch (error) {
-			set({ error: null, isCheckingAuth: false, isAuthenticated: false });
+      set({
+        errorMessage: null,
+        isCheckingAuth: false,
+        isAuthenticated: false,
+      });
       throw error;
     }
   },

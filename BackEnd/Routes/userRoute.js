@@ -1,15 +1,14 @@
 import express from "express";
-import { verifyTokenForRole } from "../Middleware/verifyToken.js";
-import { AuthorizeRoles } from "../Middleware/roleMiddleware.js";
+import { verifyTokenForRole } from "../middleware/verifyTokenForRole.js";
+import { AuthorizeRoles } from "../middleware/AuthorizeRoles.js";
 
 
 const router = express.Router();
- 
 router.get("/admin", verifyTokenForRole, AuthorizeRoles("admin"), (req, res) => {
   res.json({ message: "Admin Route" });
 });
 
- 
+
 router.get("/seller", verifyTokenForRole, AuthorizeRoles("admin", "seller"), (req, res) => {
   res.json({ message: "Seller Route" });
 });

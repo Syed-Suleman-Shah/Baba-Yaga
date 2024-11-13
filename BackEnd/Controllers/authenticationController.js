@@ -98,6 +98,36 @@ export const signup = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+export const resendVerificationCode = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res
+       .status(404)
+       .json({ success: false, message: "User with this email does not exist" });
+    }
+    if (user.isVerified) {
+      return res
+       .status(400)
+       .json({ success: false, message: "User is already verified" });
+    }
+    const verificationToken = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+    user.verificationToken = verificationToken;
+    user.verificationTokenExpiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+    await user.save();
+    // await sendVerificationEmail(user.email, verificationToken);
+    res.status(200).json({ success: true, message: "Verification code sent successfully" });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+
 export const verifyEmail = async (req, res) => {
   const { code } = req.body;
   try {
@@ -133,6 +163,8 @@ export const verifyEmail = async (req, res) => {
   }
 };
 
+
+
 export const signin = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -162,12 +194,24 @@ export const signin = async (req, res) => {
     user.lastLogin = new Date();
     const token = generatTokenAndSetCookies(res, user._id, user.role);
     await user.save();
-    res.status(200).json(token);
+    res.status(200).json({
+      success: true,
+      message: "User logged in successfully",
+      
+      user: {
+        _id: user._id,
+        email: user.email,
+        role: user.role,
+        lastLogin: user.lastLogin,
+        token,
+      },
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
     console.log("error in login ", error);
   }
 };
+
 
 export const logout = async (req, res) => {
   res.clearCookie("token");
