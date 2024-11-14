@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./DashBoard.css";
-import dollor from "./icons/dollor.png";
+import dollar from "./icons/dollor.png";
 import reviews from "./icons/reviews.png";
 import sales from "./icons/sales.png";
 import data from "../../mockJsons/orderData.json";
@@ -26,37 +26,27 @@ export const DashBoardView = () => {
   };
 
   return (
-    <div>
-      <div className="grid-container">
-        <div className="grid-item">
-          <div className="icon">
-            <img src={reviews} alt="Girl in a jacket" />
-          </div>
-          <div className="name">
-            <h3>Reviews</h3>
-          </div>
+    <div className="dashboard">
+      {/* Dashboard Stats */}
+      <div className="stats-container">
+        <div className="stat-item">
+          <img src={reviews} alt="Reviews" className="stat-icon" />
+          <h3>Reviews</h3>
         </div>
 
-        <div className="grid-item">
-          <div className="icon">
-            <img src={dollor} alt="Girl in a jacket" />
-          </div>
-          <div className="name">
-            <h3>Revenue</h3>
-          </div>
+        <div className="stat-item">
+          <img src={dollar} alt="Revenue" className="stat-icon" />
+          <h3>Revenue</h3>
         </div>
 
-        <div className="grid-item">
-          <div className="icon">
-            <img src={sales} alt="Girl in a jacket" />
-          </div>
-          <div className="name">
-            <h3>Sales</h3>
-          </div>
+        <div className="stat-item">
+          <img src={sales} alt="Sales" className="stat-icon" />
+          <h3>Sales</h3>
         </div>
       </div>
 
-      <div className="orderTable">
+      {/* Orders Table */}
+      <div className="order-table">
         <table>
           <thead>
             <tr>
@@ -71,12 +61,11 @@ export const DashBoardView = () => {
             {currentData.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
-                {/* <td>{item.item}</td> */}
                 <td>
                   <img
-                    className="image-fluid"
+                    className="order-item-img"
                     src={item.item}
-                    alt={`Profile of ${item}`}
+                    alt={`Product ${item.item}`}
                     width="50"
                     height="50"
                   />
@@ -90,10 +79,13 @@ export const DashBoardView = () => {
         </table>
 
         {/* Pagination Buttons */}
-        <div>
+        <div className="pagination">
           <button onClick={handlePrevious} disabled={currentPage === 0}>
             Previous
           </button>
+          <span>
+            Page {currentPage + 1}
+          </span>
           <button
             onClick={handleNext}
             disabled={(currentPage + 1) * rowsPerPage >= data.length}

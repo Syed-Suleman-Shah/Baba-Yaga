@@ -1,48 +1,45 @@
 import React from 'react';
-// import userData from '..//../mockJsons/mockDataUsers.json'; // Adjust the path as necessary
 import { Link } from 'react-router-dom';
-import './UserComponents.css';
+import './UserComponents.css'; // Ensure styles are correct
 
 const UserCards = () => {
-
-    return (
+  return (
+    <div className="container">
+      <div className="card-grid">
         
-        <div className="container-row">
-        <Link className='links' to="/admin/users/mod">
-            {/* <div className="col-lg-3 col-md-6 col-sm-12 mb-4">
-              <div className="card h-100 shadow-sm">
-                <div className="card-body">
-                  <h5 className="card-title">Moderators</h5>
-                </div>
-              </div>
-            </div> */}
-            <div className="grid-item">
-                    <div className="name"><h3 className='title'>Moderators</h3></div>    
-                </div>
-            </Link>
-            
-            <Link className='links' to = "/admin/users/seller">
-            
-            <div className="grid-item">
-                    <div className="name"><h3>Sellers</h3></div>    
-                </div>
-            </Link>
+        {/* Moderators Card */}
+        <Link className="card-link" to="/admin/users/mod">
+          <div className="card shadow-sm">
+            <div className="card-body text-center">
+              <h3 className="card-title">Moderators</h3>
+              <p className="card-description">Manage moderators and their roles.</p>
+            </div>
+          </div>
+        </Link>
 
-            <Link className='links' to="/admin/users/buyer">
-            {/* <div className="col-lg-3 col-md-6 col-sm-12 mb-4">
-              <div className="card h-100 shadow-sm">
-                <div className="card-body">
-                  <h5 className="card-title">Buyers</h5>
-                </div>
-              </div>
-            </div> */}
-            <div className="grid-item">
-                    <div className="name"><h3>Buyers</h3></div>    
-                </div>
-            </Link>
-            
-        </div>
-    );
-  };
-  
-  export default UserCards;
+        {/* Sellers Card */}
+        <Link className="card-link" to="/admin/users/seller">
+          <div className="card shadow-sm">
+            <div className="card-body text-center">
+              <h3 className="card-title">Sellers</h3>
+              <p className="card-description">View and manage sellers.</p>
+            </div>
+          </div>
+        </Link>
+
+        {/* Buyers Card */}
+        <Link className="card-link" to="/admin/users/buyer">
+          <div className="card shadow-sm">
+            <div className="card-body text-center">
+              <h3 className="card-title">Buyers</h3>
+              <p className="card-description">Manage buyers and their profiles.</p>
+            </div>
+          </div>
+        </Link>
+        
+      </div>
+    </div>
+  );
+};
+
+export default UserCards;

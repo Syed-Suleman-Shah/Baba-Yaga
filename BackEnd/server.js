@@ -18,7 +18,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true, // enable set cookie  
 }));
-
 app.use("/api/auth", authRoutes);
 app.use("/api/userRoute", userRoute); // routes for authenticated user
 app.use("/api/admin/view-users", ManageUsers);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-export const Dashboard = () => {
+const Dashboard = () => {
   return (
     <div className="main-content">
       <h2>Dashboard Overview</h2>
@@ -34,3 +34,4 @@ export const Dashboard = () => {
     </div>
   );
 };
+export default Dashboard;

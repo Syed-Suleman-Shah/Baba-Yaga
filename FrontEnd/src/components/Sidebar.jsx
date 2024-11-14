@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './components.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./components.css";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -14,28 +14,34 @@ const Sidebar = () => {
       <button className="toggle-btn" onClick={toggleSidebar}>
         ☰
       </button>
-      <nav className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
+      <nav className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
         <div className="sidebar-sticky">
           <h4 className="sidebar-heading">Admin Panel</h4>
           <ul className="nav flex-column">
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/dashbord">
+              <Link className="nav-link" to="/admin/dashboard">
                 Dashboard
               </Link>
             </li>
+           
             <li className="nav-item">
               <Link className="nav-link" to="/admin/users">
                 User Management
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/products">
-                Product Management
+              <Link className="nav-link" to="/admin/orders">
+                Order Management
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/orders">
-                Order Management
+              <Link className="nav-link" to="/admin/categories">
+                Category Management
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/products">
+                Product Management
               </Link>
             </li>
           </ul>

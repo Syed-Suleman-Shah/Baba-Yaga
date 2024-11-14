@@ -1,32 +1,47 @@
 import { User } from "../../Models/userAuthentication.js";
- 
+import { Category , SubCategory } from "../../Models/Category.js";
+
 // User Management -> View Users -> 1) viewSellers -> 2 viewBuyers
 export const selectSellers = async (req, res, next) => {
   try {
-    // Query using $in to match both "seller" and "Seller"
-    const sellers = await User.find({ role: { $in: ["seller", "Seller"] } });
-    
+    const sellers = await User.find({
+      $or: [
+        { role: { $in: ["seller", "Seller"] } },
+        { originalRole: { $in: ["seller", "Seller"] } },
+      ],
+    });
+
     res.json({ sellers });
   } catch (error) {
-    next(error);
+    console.error("Error fetching sellers:", error);
+    res.status(500).json({ message: "Error fetching sellers", error });
   }
 };
 
 export const selectBuyers = async (req, res, next) => {
   try {
-    const buyers = await User.find({ role: { $in: ["buyer", "Buyer"] } });
+    const buyers = await User.find({
+      $or: [
+        { role: { $in: ["buyer", "Buyer"] } },
+        { originalRole: { $in: ["buyer", "Buyer"] } },
+      ],
+    });
     res.json({ buyers });
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 };
-
-// moderator
 export const selectModerators = async (req, res, next) => {
   try {
-    const moderators = await User.find({ role: {$in: ["moderator", "Moderator"] }});
+    const moderators = await User.find({
+      $or: [
+        { role: { $in: ["moderator", "Mderator"] } },
+        { originalRole: { $in: ["moderator", "Moderator"] } },
+      ],
+    });
     res.json({ moderators });
   } catch (error) {}
 };
-// all users
 
 export const getAllUsers = async (req, res, next) => {
   try {
@@ -38,59 +53,54 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 // Edit User Profile
-export const updateUserProfile = async (req, res, next) => {
+export const updateUserProfile = async (req, res) => {
   try {
-    const { email } = req.body;
-    let user = await User.findOne({ email });
-
+    const userId = req.params.id;
+    let user = await User.findById(userId);
     if (!user) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
-    if (user) {
-      const { name, newEmail } = req.body;
-      user = await User.findByIdAndUpdate(
-        user._id,
-        { name: name, email: newEmail },
-        { new: true }
-      );
-      await user.save();
-      res.json({
-        success: true,
-        message: "Profile updated successfully",
-        user,
-      });
-    }
+
+    console.log(JSON.stringify(user));
+    const { name, email, role } = req.body;
+    user.name = name;
+    user.email = email;
+    user.role = role;
+
+    await user.save(); // Save the updated user
+
+    res.json({
+      success: true,
+      message: "Profile updated successfully",
+      user,
+    });
   } catch (error) {
     console.error("Error in updateUserProfile:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
-// User Management -> Update User Role -> 1) updateSeller -> 2) updateBuyer
+
 export const userRoleAssignment = async (req, res) => {
   try {
     const { email, role } = req.body;
     let user = await User.findOne({ email });
-
     if (!user) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
-
     const allowedRoles = ["admin", "seller", "buyer"];
     if (allowedRoles.includes(user.role.toLowerCase())) {
       user = await User.findByIdAndUpdate(user._id, { role }, { new: true });
 
       res.json({ success: true, message: "Role updated successfully", user });
     } else {
-      return res
-        .status(403)
-        .json({
-          success: false,
-          message: "You are not authorized to change roles",
-        });
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to change roles",
+      });
     }
   } catch (error) {
     console.error("Error in user Role Assignment:", error);
@@ -98,49 +108,69 @@ export const userRoleAssignment = async (req, res) => {
   }
 };
 
-// banUsers
+ 
+export const displayUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);  
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
+// banUsers
 export const banUsers = async (req, res) => {
   try {
-    const { email } = req.body;
-    let user = await User.findOne({ email });
+    const user = await User.findById(req.params.id);
 
     if (!user) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
-
-    user = await User.findByIdAndUpdate(
-      user._id,
-      { isBanned: true },
-      { new: true }
-    );
-
-    res.json({ success: true, message: "User banned successfully", user });
+    user.originalRole = user.role;
+    user.role = "banned";
+    user.isBanned = true;
+    await user.save();
+    console.log("User banned successfully");
+    res.json({
+      success: true,
+      message: "User banned successfully",
+      user: { ...user },
+    });
   } catch (error) {
     console.error("Error in banUsers:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 // unban Users
 export const unbanUsers = async (req, res) => {
   try {
-    const { email } = req.body;
-    let user = await User.findOne({ email });
+    const user = await User.findById(req.params.id);
 
     if (!user) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
-    user = await User.findByIdAndUpdate(
-      user._id,
-      { isBanned: false },
-      { new: true }
-    );
 
-    res.json({ success: true, message: "User unbanned successfully", user });
+    const originalRole = user.originalRole;
+    user.role = user.originalRole;
+    console.log("User unbanned successfully", originalRole);
+    user.isBanned = false;
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "User unbanned successfully",
+      user,
+    });
   } catch (error) {
     console.error("Error in unbanUsers:", error);
     res.status(500).json({ success: false, message: "Server error" });
@@ -148,6 +178,56 @@ export const unbanUsers = async (req, res) => {
 };
 
 //  Manage Categories
+//   const { name, email, password, confirmPassword, role , isAgreeToTerms } = req.body;
 
- 
-  
+export const cresteCagory = async (req, res) => {
+  try {
+    const { name, description } = req.body;
+    console.log(name, description);
+    if (!name || !description) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
+    const newCategory = new Category(req.body);
+    await newCategory.save();
+    res.json({ message: "New category created successfully", newCategory });
+  } catch (error) {
+    console.error("Error in cresteCagory:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// create a subCategory
+export const createSubCategory = async (req, res) => {
+  try {
+    const { name, description, parentCategory } = req.body;
+    console.log(name, description, parentCategory);
+    if (!parentCategory) {
+      return res
+        .status(400)
+        .json({ success: false, message: "parentCategory is required" });
+    }
+    if (!name || !description) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
+    const parentCategoryObj = await Category.findById(parentCategory);
+    if (!parentCategoryObj) {
+      return res
+       .status(404)
+       .json({ success: false, message: "Parent category not found" });
+    }
+    const newSubCategory = new SubCategory({
+      name,
+      description,
+      parentCategory: parentCategoryObj._id,
+    });
+    await newSubCategory.save();
+    res.json({ message: "New subcategory created successfully", newSubCategory });
+  } catch (e) {
+    console.error("Error in createSubCategory:", e);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};

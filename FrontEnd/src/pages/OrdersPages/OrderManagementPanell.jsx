@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
- import {OrderList} from "../../components/OrderComponents/OrderList"
+ import OrderList from "../../components/OrderComponents/OrderList.jsx";
 
  const OrderManagementPanell = () => {
   const [tab, setTab] = React.useState(0);

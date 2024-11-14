@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["admin","buyer", "seller"],
+      enum: ["admin","buyer", "seller","moderator", "banned"],
       default: "buyer",
     },
     lastLogin: {
@@ -38,8 +38,9 @@ const userSchema = new mongoose.Schema(
     },
     isAgreeToTerms:{
       type: Boolean,
-      required: true,
+     
     },
+    originalRole: { type: String},
     resetPasswordToken: String,
     resetPasswordExpiresAt: Date,
     verificationToken: String,
