@@ -1,34 +1,95 @@
-import React, { useEffect, useState } from 'react';
-import productData from '../../mockJsons/productData.json'; // Adjust the import based on your file structure
-import './productstyle.css'; // Make sure to include the styles
+import React, { useEffect, useState } from "react";
+import "./productstyle.css";
+import { FaArrowLeft } from "react-icons/fa"; // Importing the arrow icon from React Icons
+
+import { useAdminService } from "../../services/adminServices";
 
 const DetailedProductView = () => {
-  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null); // Track selected parent category
+  const token = sessionStorage.getItem("token");
+  const { displayCategories } = useAdminService();
 
   useEffect(() => {
-    // Load the product data from the JSON file
-    setProducts(productData);
+    fetchCategories();
   }, []);
 
+  const fetchCategories = async () => {
+    try {
+      const fetchedCategories = await displayCategories(token);
+      setCategories(fetchedCategories || []);
+    } catch (err) {
+      console.error("Error fetching categories:", err);
+    }
+  };
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const handleBackClick = () => {
+    setSelectedCategory(null);
+  };
+
   return (
-    <div className="product-grid">
-      <h2 className="grid-title">Product List</h2>
-      <div className="grid-container">
-        {products.map((product) => (
-          <div className="product-card" key={product.id}>
-            <div className="product-card-image-container">
-              <img src={product.product} alt={product.name} className="product-image" />
-            </div>
-            <div className="product-card-details">
-              <h3>{product.name}</h3>
-              <p className="product-seller">Seller: {product.seller}</p>
-              <p className="product-price">Price: ${product.price}</p>
-              <p className="product-state">State: {product.new}</p>
-            </div>
-            <button className="view-details-btn">View Details</button>
-          </div>
-        ))}
-      </div>
+    <div className="table-responsive">
+      {selectedCategory ? (
+        <>
+        <div className="tablecss">
+        <button className="arrow-left btn-light" onClick={handleBackClick}>
+          <FaArrowLeft />
+          </button>
+          <h4>Subcategories of {selectedCategory.name}</h4>
+        </div>
+          <table className="table table-striped table-bordered">
+            <thead className="thead-dark">
+              <tr>
+                <th>Subcategory Name</th>
+                <th>Created Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedCategory.subcategories.map((subcategory) => (
+                <tr key={subcategory._id}>
+                  <td>{subcategory.name}</td>
+                  <td>
+                    {new Date(subcategory.createdAt).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      ) : (
+        <>
+          <h4>Parent Categories</h4>
+          <table className="table table-striped table-bordered">
+            <thead className="thead-dark">
+              <tr>
+                <th>Parent Category</th>
+                <th>Subcategories Count</th>
+                <th>Created Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {categories.map((category) => (
+                <tr key={category._id}>
+                  <td>
+                    <button
+                      className="btn"
+                      onClick={() => handleCategoryClick(category)}
+                    >
+                      {category.name}
+                    </button>
+                  </td>
+                  <td>{category.subcategories.length}</td>
+                  <td>{new Date(category.createdAt).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
     </div>
   );
 };

@@ -98,18 +98,17 @@ const UserBuyers = () => {
   };
 
   const handleEditClick = (userId) => {
-    setSelectedUserId(userId); // Set the user ID to be edited
-    setShowEditModal(true); // Show the edit modal
+    setSelectedUserId(userId); 
+    setShowEditModal(true);  
   };
 
   const handleModalClose = () => {
-    setShowEditModal(false); // Hide the modal when done
-    setSelectedUserId(null); // Clear the selected user
+    setShowEditModal(false); 
+    setSelectedUserId(null);  
   };
 
   const handleUserUpdated = () => {
-    // Optional: Logic to refresh the user list after an update if needed
-    console.log("User updated, refresh list if necessary.");
+     console.log("User updated, refresh list if necessary.");
   };
 
   if (loading) {

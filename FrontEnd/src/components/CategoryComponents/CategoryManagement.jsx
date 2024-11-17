@@ -4,6 +4,7 @@ import AddCategory from './AddCategory';
 import EditCategory from './EditCategory';
 import DeleteCategory from './DeleteCategory';
 import { Link } from 'react-router-dom';
+import DetailedProductView from './DetailedProductView';
 import './productstyle.css';
 
 function CategoryManagement() {
@@ -12,21 +13,7 @@ function CategoryManagement() {
   const [currentView, setCurrentView] = useState('category'); // Manage views: products, editCategory, addCategory
   const rowsPerPage = 7;
 
-   const filteredData = data.filter((item) => item.id.toString().includes(searchTerm));
-  const startIndex = currentPage * rowsPerPage;
-  const currentData = filteredData.slice(startIndex, startIndex + rowsPerPage);
 
-  const handleNext = () => {
-    if ((currentPage + 1) * rowsPerPage < filteredData.length) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
 
   return (
     <div className="product-management">
@@ -50,47 +37,9 @@ function CategoryManagement() {
       </nav>
  
       {currentView === 'category' && (
-        <> 
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Item</th>
-                <th>Seller</th>
-                <th>New</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentData.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>
-                    <Link to="/detailedProduct">
-                      <img src={item.product} alt={`Product of ${item.seller}`} width="50" height="50" />
-                    </Link>
-                  </td>
-                  <td>{item.seller}</td>
-                  <td>{item.new}</td>
-                  <td>{item.price}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-           <div className="pagination">
-            <button onClick={handlePrevious} disabled={currentPage === 0}>
-              Previous
-            </button>
-            <span>Page {currentPage + 1}</span>
-            <button
-              onClick={handleNext}
-              disabled={(currentPage + 1) * rowsPerPage >= filteredData.length}
-            >
-              Next
-            </button>
-          </div>
-        </>
+    <>
+    <DetailedProductView />
+    </>
       )}
        {currentView === 'addCategory' && <AddCategory />}
        {currentView === 'editCategory' && <EditCategory />}

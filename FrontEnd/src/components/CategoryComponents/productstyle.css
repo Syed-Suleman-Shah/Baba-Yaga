@@ -549,3 +549,17 @@ label {
   text-align: center;
 }
 
+
+.tablecss{
+  display: flex;
+  align-items: center;
+  justify-content:flex-start;
+  gap: 350px;
+}
+.arrow-left{
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #FFFFFF;
+   
+}

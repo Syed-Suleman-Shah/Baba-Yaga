@@ -71,8 +71,6 @@ const UserModerator = () => {
         })
         .then((response) => {
           alert(`${currentRole === "banned" ? "User unbanned" : "User banned"} successfully!`);
-          
-          // Update state using a function to ensure you're working with the latest state
           setData((prevData) =>
             prevData.map((user) =>
               user._id === id

@@ -3,11 +3,9 @@ const SubcategorySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim: true,
-  },
+    },
   description: {
-    type: String,
-    trim: true,
+    type: String,  
   },
   parentCategory: {
     type: mongoose.Schema.Types.ObjectId,
@@ -29,18 +27,18 @@ const CategorySchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    trim: true,
   },
   description: {
     type: String,
-    trim: true,
+   
   },
   subcategories: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Subcategory',
+      _id: { type: mongoose.Schema.Types.ObjectId, auto: true }, // Must exist for .id() to work
+      name: { type: String, required: true },
+      description: { type: String, required: true },
     },
-  ],
+  ], 
   createdAt: {
     type: Date,
     default: Date.now,

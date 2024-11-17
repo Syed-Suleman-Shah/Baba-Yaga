@@ -109,8 +109,6 @@ export const useAuthService = create((set) => ({
 
       if (response.data && response.data.user) {
         const user = response.data.user;
-        
-
         set({
           user: user,
           isAuthenticated: true,
