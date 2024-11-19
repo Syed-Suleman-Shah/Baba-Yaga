@@ -1,0 +1,116 @@
+[
+    {
+      "id": 1,
+      "name": "iPhone 13",
+      "category": "Mobile",
+      "price": "3500",
+      "installment": "200",
+      "image": "https://images.unsplash.com/photo-1512221684154-3a1f36dac982?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 2,
+      "name": "Samsung Galaxy S22",
+      "category": "Mobile",
+      "price": "3000",
+      "installment": "180",
+      "image": "https://images.unsplash.com/photo-1551537448-ebeac1e00fa4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE3fHx8ZW58MHx8fHx8"
+    },
+    {
+        "id": 3,
+        "name": "iPhone laptop",
+        "category": "Laptop",
+        "price": "3500",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1570976278927-39de20093775?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDM3fHx8ZW58MHx8fHx8"
+      },
+      {
+        "id": 4,
+        "name": "iPhone 13",
+        "category": "Mobile",
+        "price": "3500",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1483121986724-c6627b388c36?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDUwfHx8ZW58MHx8fHx8"
+      },
+      {
+        "id": 5,
+        "name": "iPhone Laptop",
+        "category": "Laptop",
+        "price": "3500",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1641454226957-3fa45cf3b089?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDc0fHx8ZW58MHx8fHx8"
+      },
+      {
+        "id": 6,
+        "name": "iPhone 13",
+        "category": "Computer",
+        "price": "3500",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1675519836438-e88842f9826d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEzNHx8fGVufDB8fHx8fA%3D%3D"
+      },
+      {
+        "id": 7,
+        "name": "iPhone Laptop",
+        "category": "Laptop",
+        "price": "3500",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1706097081541-a8272566f7ee?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1Nnx8fGVufDB8fHx8fA%3D%3D"
+      },
+      {
+        "id": 8,
+        "name": "iPhone 13",
+        "price": "3500",
+        "category": "Computer",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1632518192421-56aba73eae55?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE2OXx8fGVufDB8fHx8fA%3D%3D"
+      },
+      {
+        "id": 9,
+        "name": "iPhone 13",
+        "category": "Computer",
+        "price": "3500",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1510878933023-e2e2e3942fb0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDIyNHx8fGVufDB8fHx8fA%3D%3D"
+      },
+      {
+        "id": 10,
+        "name": "iPhone Laptop",
+        "category": "Laptop",
+        "price": "3500",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1641454226957-3fa45cf3b089?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDc0fHx8ZW58MHx8fHx8"
+      },
+      {
+        "id": 11,
+        "name": "iPhone 13",
+        "category": "Mobile",
+        "price": "3500",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1675519836438-e88842f9826d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEzNHx8fGVufDB8fHx8fA%3D%3D"
+      },
+      {
+        "id": 12,
+        "name": "iPhone Laptop",
+        "category": "Laptop",
+        "price": "3500",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1706097081541-a8272566f7ee?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1Nnx8fGVufDB8fHx8fA%3D%3D"
+      },
+      {
+        "id": 13,
+        "name": "iPhone 13",
+        "price": "3500",
+        "category": "Tablet",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1632518192421-56aba73eae55?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE2OXx8fGVufDB8fHx8fA%3D%3D"
+      },
+      {
+        "id": 14,
+        "name": "iPhone 13",
+        "category": "Tablet",
+        "price": "3500",
+        "installment": "200",
+        "image": "https://images.unsplash.com/photo-1510878933023-e2e2e3942fb0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDIyNHx8fGVufDB8fHx8fA%3D%3D"
+      }
+    
+  ]
+  
