@@ -1,7 +1,4 @@
 import jwt from 'jsonwebtoken';
-
-import { User } from '../Models/userAuthentication.js';
-
 export const verifyToken = (req , res , next) => {
     const token = req.cookies.token;
     if (!token)

@@ -1,49 +1,35 @@
 import express from "express";
 import {
   getAllUsers,
-  selectSellers,
-  selectBuyers,
-  selectModerators,
-  updateUserProfile,
+  getSellers,
+  getBuyers,
+  getModerators,
+  editUserProfile,
   displayUserProfile,
   banUsers,
   unbanUsers,
-} from "../../Controllers/admin/adminController.js";
+} from "../../controller/admin/user.controller.js";
 import { AuthorizeRoles } from "../../middleware/AuthorizeRoles.js";
 import { verifyTokenForRole } from "../../middleware/verifyTokenForRole.js";
 
 const router = express.Router();
+
 router.get(
   "/moderators",
   verifyTokenForRole,
   AuthorizeRoles("admin"),
-  selectModerators
+  getModerators
 );
-router.get(
-  "/sellers",
-  verifyTokenForRole,
-  AuthorizeRoles("admin"),
-  selectSellers
-);
-router.get(
-  "/buyers",
-  verifyTokenForRole,
-  AuthorizeRoles("admin"),
-  selectBuyers
-);
+router.get("/sellers", verifyTokenForRole, AuthorizeRoles("admin"), getSellers);
+router.get("/buyers", verifyTokenForRole, AuthorizeRoles("admin"), getBuyers);
+router.get("/display-user/:id", displayUserProfile);
 
 router.put(
   "/edit-user/:id",
   verifyTokenForRole,
   AuthorizeRoles("admin"),
-  updateUserProfile
+  editUserProfile
 );
-
-router.get(
-  "/display-user/:id",
-  displayUserProfile
-);
-
 
 router.put(
   "/ban-user/:id",
@@ -51,8 +37,6 @@ router.put(
   AuthorizeRoles("admin"),
   banUsers
 );
-
-
 
 router.put(
   "/unban-user/:id",

@@ -1,14 +1,14 @@
 import express from "express";
 import {
-  cresteCagory,
-  createSubCategory,
-  getAllSubCategories,
+  addCategory,
+  addSubCategory,
+  getCategories,
+  getSubCategories,
   editCategories,
+  editSubCategories,
   deleteCategory,
   deleteSubategory,
-  editSubCategories,
-  getAllCategories,
-} from "../../Controllers/admin/adminController.js";
+} from "../../controller/admin/category.controller.js";
 import { AuthorizeRoles } from "../../middleware/AuthorizeRoles.js";
 import { verifyTokenForRole } from "../../middleware/verifyTokenForRole.js";
 
@@ -17,23 +17,23 @@ router.post(
   "/add-category",
   verifyTokenForRole,
   AuthorizeRoles("admin"),
-  cresteCagory
+  addCategory
 );
 
 router.post(
   "/add-Subcategory",
   verifyTokenForRole,
   AuthorizeRoles("admin"),
-  createSubCategory
+  addSubCategory
 );
 
 router.get(
   "/view-categories",
   verifyTokenForRole,
   AuthorizeRoles("admin", "seller"),
-  getAllCategories
+  getCategories
 );
-router.get("/view-Subcategories/:id", getAllSubCategories);
+router.get("/view-Subcategories/:id", getSubCategories);
 
 router.put(
   "/edit-category/:id",

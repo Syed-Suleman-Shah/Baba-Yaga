@@ -2,11 +2,10 @@ import express from "express";
 import cookieParser from 'cookie-parser';
 import cors from "cors";
 import dotenv from "dotenv";
-import { connect } from "./Database/connectDB.js";
-import authRoutes from "./Routes/userAuthenticationRoutes.js";
-import userRoute from "./Routes/userRoute.js";
-import ManageUsers from "./Routes/admin/ManageUsers.js"
-import ManageCategories from "./Routes/admin/ManageCategories.js"
+import { connect } from "./database/db.connection.js";
+import authRoutes from "./route/auth.user.route.js";
+import ManageUsers from "./route/admin/manage.user.js"
+import ManageCategories from "./route/admin/manage.category.js"
 dotenv.config();
 
 const app = express();
@@ -21,7 +20,6 @@ app.use(cors({
 }));
 
 app.use("/api/auth", authRoutes);
-app.use("/api/userRoute", userRoute); // routes for authenticated user
 app.use("/api/admin/view-users", ManageUsers);
 app.use("/api/admin/categories", ManageCategories);
 app.listen(PORT, () => {
