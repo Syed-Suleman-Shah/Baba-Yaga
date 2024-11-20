@@ -2,21 +2,15 @@ import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import InputField from '../Common/InputFields';
 import './AuthForm.css';
-import { useAuthService } from '../../services/authService';
 
 function ForgotPassword({ onResetPassword }) {
-  const [email, setEmail] = useState('');  
-  const {resetPassword , error , isLoading} = useAuthService();
-  const handleForgotPassword = async (e) => {
+  const [email, setEmail] = useState('');
+
+  const handleForgotPassword = (e) => {
     e.preventDefault();
-    if(!email) {
-      return;
-    }
-    await resetPassword(email);
-    
+    onResetPassword(email);
   };
 
-  
   return (
 
     <div className="auth-container d-flex flex-column flex-md-row align-items-center">
@@ -30,7 +24,6 @@ function ForgotPassword({ onResetPassword }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {error && <p className="error-message">{`${error}`}</p>}
           <button type="submit" className="btn btn-primary w-100">
             Reset Password
           </button>

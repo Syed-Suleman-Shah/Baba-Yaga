@@ -22,7 +22,7 @@ export const AdminRoutes = () => {
       {/* The "/admin" route will render the AdminLayout */}
       <Route path="/" element={<AdminLayout />}>
         {/* Nested routes under AdminLayout */}
-        <Route path="admin" element={<DashBoardViewPage />} exact />
+        <Route path="admin" element={<DashBoardViewPage />} />
 
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="orders" element={<OrderManagementPanell />} />
